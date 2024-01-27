@@ -1,7 +1,7 @@
 "use client";
 
 import Heading from "@/components/heading";
-import { MessageSquare } from "lucide-react";
+import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import axios from "axios";
@@ -28,7 +28,7 @@ import BotAvatar from "@/components/bot-avatar";
 
 import ReactMarkdown from 'react-markdown';
 
-const ConversationPage = () => {
+const CodePage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
 
@@ -43,7 +43,7 @@ const ConversationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response: string = await axios.post("/api/conversation", {
+      const response: string = await axios.post("/api/code", {
         message: values.prompt,
       });
 
@@ -65,11 +65,11 @@ const ConversationPage = () => {
   return (
     <>
       <Heading
-        title="Conversation"
-        description="Our most advanced conversation model."
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title="Code Generation"
+        description="Generate code using descriptive text."
+        icon={Code}
+        iconColor="text-green-700"
+        bgColor="bg-green-700/10"
       />
       <div className="px-4 lg:px-8">
         <Form {...form}>
@@ -85,10 +85,10 @@ const ConversationPage = () => {
                   <FormControl className="m-0 p-0">
                     <Input
                       className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                      placeholder="How to calculate the area of a circle?"
+                      placeholder="Simple toggle button using React hooks."
                       disabled={isLoading}
-                      {...field}
                       autoComplete="off"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -133,10 +133,20 @@ const ConversationPage = () => {
               <div className="flex bg-muted">
                 <UserAvatar />
                 <p className="p-4">
-                  <ReactMarkdown
+                  <ReactMarkdown 
+                    components={{
+                      pre: ({node, ...props}) => (
+                        <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                          <pre {...props} />
+                        </div>
+                      ), 
+                      code : ({node, ...props}) => (
+                        <code className="bg-black/10 rounded-lg p-1" {...props} />
+                      )
+                    }}
                     className="text-sm overflow-hidden leading-7"
                   >
-                    {message.result.data}
+                  {message.result.data}
                   </ReactMarkdown>
                 </p>
               </div>
@@ -148,4 +158,4 @@ const ConversationPage = () => {
   );
 };
 
-export default ConversationPage;
+export default CodePage;
