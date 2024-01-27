@@ -14,7 +14,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-
 import { useRouter } from "next/navigation";
 
 const tools = [
@@ -90,6 +89,8 @@ export default function DasboardPage() {
               <ArrowRight className="w-5 h-5" />
             </Card>
           ))}
+
+          <div className="p-10"></div>
         </div>
       </div>
     </>
