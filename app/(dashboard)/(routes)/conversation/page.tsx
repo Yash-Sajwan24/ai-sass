@@ -100,7 +100,7 @@ const ConversationPage = () => {
               disabled={isLoading}
               type="submit"
             >
-              Submit
+              Generate
             </Button>
           </form>
         </Form>
