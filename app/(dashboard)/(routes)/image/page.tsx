@@ -30,10 +30,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import UserAvatar from "@/components/user-avatar";
-import BotAvatar from "@/components/bot-avatar";
 
-import ReactMarkdown from "react-markdown";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 
@@ -187,7 +184,8 @@ const ImagePage = () => {
               </div>
               <CardFooter className="p-2">
                 <Button onClick={() => window.open(src)} variant="secondary" className="w-full">
-                  <Download className="h-4 w-4 mr-2">Download </Download>
+                <span className="p-2">Download</span> 
+                  <Download className="h-4 w-4 mr-2"> </Download>
                 </Button>
               </CardFooter>
             </Card>
