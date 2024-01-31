@@ -84,7 +84,7 @@ const ProModal = () => {
 
   return (
     <Dialog open={proModel.isOpen} onOpenChange={proModel.onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] z-[999]">
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
             <div className="flex items-center gap-x-2 font-bold py-1">

@@ -29,7 +29,9 @@ export async function POST(req: Request) {
       model: "gpt-3.5-turbo",
     });
 
-    await increaseApiCount();
+    if(!isPro){
+      await increaseApiCount();
+    }
   
     return NextResponse.json(response.choices[0].message.content);
   }

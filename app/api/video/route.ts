@@ -32,7 +32,9 @@ export async function POST(req: Request) {
       }
     );
   
-    await increaseApiCount();
+    if(!isPro){
+      await increaseApiCount();
+    }
     
     return NextResponse.json(response);
   }

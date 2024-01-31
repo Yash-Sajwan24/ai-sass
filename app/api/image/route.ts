@@ -34,7 +34,9 @@ export async function POST(req: Request) {
       size: resolution,
     });
 
-    await increaseApiCount();
+    if(!isPro){
+      await increaseApiCount();
+    }
   
     return NextResponse.json(response.data, {status : 201});
   }
