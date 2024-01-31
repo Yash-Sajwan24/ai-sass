@@ -28,9 +28,13 @@ import BotAvatar from "@/components/bot-avatar";
 
 import ReactMarkdown from 'react-markdown';
 
+import { useProModal } from "@/hooks/use-pro-modal";
+
 const ConversationPage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
+
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,8 +59,12 @@ const ConversationPage = () => {
 
       setMessages(resArray);
       form.reset();
-    } catch (err) {
-      console.log(err);
+    } catch (err:any) {
+
+      if(err?.response?.status === 403){
+        proModal.onOpen();
+      }
+
     } finally {
       router.refresh();
     }

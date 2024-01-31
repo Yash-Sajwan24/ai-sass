@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { ClerkProvider } from '@clerk/nextjs'
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        </body>
     </html>
     </ClerkProvider>
   );

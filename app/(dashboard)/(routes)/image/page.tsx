@@ -34,9 +34,13 @@ import { useState } from "react";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 
+import { useProModal } from "@/hooks/use-pro-modal";
+
 const ImagePage = () => {
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
+
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,8 +63,10 @@ const ImagePage = () => {
 
       setImages(urls);
       form.reset();
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
@@ -183,8 +189,12 @@ const ImagePage = () => {
                 <Image src={src} alt="Image" fill />
               </div>
               <CardFooter className="p-2">
-                <Button onClick={() => window.open(src)} variant="secondary" className="w-full">
-                <span className="p-2">Download</span> 
+                <Button
+                  onClick={() => window.open(src)}
+                  variant="secondary"
+                  className="w-full"
+                >
+                  <span className="p-2">Download</span>
                   <Download className="h-4 w-4 mr-2"> </Download>
                 </Button>
               </CardFooter>

@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import Sidebar  from "@/components/sidebar";
 
 import { getApiLimitCount } from "@/lib/api-limit";
+import { ModalProvider } from "@/components/modal-provider";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const apiLimitCount = await getApiLimitCount();
@@ -12,6 +13,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           <Sidebar apiLimitCount= {apiLimitCount}/>
         </div>
         <main className="md:pl-72">
+        <ModalProvider />
           <Navbar />
           {children}
         </main>

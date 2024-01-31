@@ -24,9 +24,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useProModal } from "@/hooks/use-pro-modal";
+
 const MusicPage = () => {
   const router = useRouter();
   const [music, setMusic] = useState<string>();
+
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,8 +50,10 @@ const MusicPage = () => {
       setMusic(response.data.audio);
 
       form.reset();
-    } catch (err) {
-      console.log(err);
+    } catch (err:any) {
+      if(err?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }

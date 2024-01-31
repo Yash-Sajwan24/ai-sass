@@ -26,11 +26,15 @@ import { useState } from "react";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
 
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
+
+import { useProModal } from "@/hooks/use-pro-modal";
 
 const CodePage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
+
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,8 +59,10 @@ const CodePage = () => {
 
       setMessages(resArray);
       form.reset();
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
@@ -133,20 +139,23 @@ const CodePage = () => {
               <div className="flex bg-muted">
                 <UserAvatar />
                 <p className="p-4">
-                  <ReactMarkdown 
+                  <ReactMarkdown
                     components={{
-                      pre: ({node, ...props}) => (
+                      pre: ({ node, ...props }) => (
                         <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
                           <pre {...props} />
                         </div>
-                      ), 
-                      code : ({node, ...props}) => (
-                        <code className="bg-black/10 rounded-lg p-1" {...props} />
-                      )
+                      ),
+                      code: ({ node, ...props }) => (
+                        <code
+                          className="bg-black/10 rounded-lg p-1"
+                          {...props}
+                        />
+                      ),
                     }}
                     className="text-sm overflow-hidden leading-7"
                   >
-                  {message.result.data}
+                    {message.result.data}
                   </ReactMarkdown>
                 </p>
               </div>
