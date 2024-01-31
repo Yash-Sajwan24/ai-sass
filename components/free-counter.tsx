@@ -11,12 +11,16 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 interface FreeCounterProps {
   apiLimitCount: number;
+  isPro: boolean;
 }
 
-const FreeCounter = ({ apiLimitCount = 0 }: FreeCounterProps) => {
+const FreeCounter = ({
+  apiLimitCount = 0,
+  isPro = false,
+}: FreeCounterProps) => {
   //to prevent hydration error
   const [mounted, setMounted] = useState(false);
-  
+
   const proModal = useProModal();
 
   useEffect(() => {
@@ -24,6 +28,10 @@ const FreeCounter = ({ apiLimitCount = 0 }: FreeCounterProps) => {
   }, []);
 
   if (!mounted) {
+    return null;
+  }
+
+  if(isPro){
     return null;
   }
 
@@ -41,7 +49,11 @@ const FreeCounter = ({ apiLimitCount = 0 }: FreeCounterProps) => {
                 value={(apiLimitCount / MAX_FREE_COUNTS) * 100}
               />
             </div>
-            <Button onClick={proModal.onOpen} variant="premium" className="w-full">
+            <Button
+              onClick={proModal.onOpen}
+              variant="premium"
+              className="w-full"
+            >
               Upgrade
               <Zap className="w-4 h-4 ml-2 fill-white" />
             </Button>

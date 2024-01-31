@@ -3,6 +3,7 @@ import OpenAI from "openai";
 
 
 import { increaseApiCount, checkApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const openai = new OpenAI({apiKey : process.env.NEXT_PUBLIC_OPENAI_API_KEY});
 
@@ -15,7 +16,8 @@ export async function POST(req: Request) {
     }
 
     const freeTrial = await checkApiLimit();
-    if(!freeTrial){
+    const isPro = await checkSubscription();
+    if(!freeTrial && !isPro){
       return new NextResponse("Free trial has expired.", {status : 403});
     }
 
