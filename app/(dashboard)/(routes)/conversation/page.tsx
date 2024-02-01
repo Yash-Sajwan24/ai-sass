@@ -29,6 +29,7 @@ import BotAvatar from "@/components/bot-avatar";
 import ReactMarkdown from 'react-markdown';
 
 import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 const ConversationPage = () => {
   const router = useRouter();
@@ -63,6 +64,9 @@ const ConversationPage = () => {
 
       if(err?.response?.status === 403){
         proModal.onOpen();
+      }
+      else{
+        toast.error("Something went wrong.");
       }
 
     } finally {

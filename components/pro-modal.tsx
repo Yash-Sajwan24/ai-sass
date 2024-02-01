@@ -27,6 +27,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const tools = [
   {
@@ -75,7 +76,7 @@ const ProModal = () => {
       window.location.href = await response.data.url;
     }
     catch(err){
-      console.log(err, "STRIPE_CLIENT_ERROR");
+      toast.error("Something went wrong.");
     }
     finally{
       setLoading(false);
@@ -113,7 +114,7 @@ const ProModal = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={onSubscribe} size="lg" variant="premium" className="w-full">
+          <Button disabled={loading} onClick={onSubscribe} size="lg" variant="premium" className="w-full">
             Upgrade 
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>
